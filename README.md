@@ -18,6 +18,9 @@ Key Points:
 - Shared Secret: Each party computes the same shared secret key using their private key and the other party's public key.
 
 Why It Works:
+- Mathematically: DHKE relies on the commutative nature of scalar multiplication, in this case over an elliptic curve.
+- Simplified Example: Private Key A * Public Key B = Private Key B * Public Key A
+- Perfect Forward Secrecy: So long as both private keys are secret, nobody else can derive the encryption key.
 - Security: The method relies on the difficulty of certain mathematical problems, making it hard for attackers to derive the private keys from the public information.
 - No Direct Key Sharing: Since the actual secret key is never sent over the channel, it remains secure from eavesdroppers.
-- Mathematically: Private Key A * Public Key B = Private Key B * Public Key A - So long as both private keys are secret, nobody else can derive the encryption key.
+
