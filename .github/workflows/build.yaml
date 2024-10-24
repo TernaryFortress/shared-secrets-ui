@@ -81,24 +81,20 @@ jobs:
       - name: Upload Windows executable to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ github.run_number }}
+          tag_name: v${{ github.run_number }}  # Use the existing tag
           files: ./artifacts/windows/*  # Specify the files to upload
-          name: windows-exe
           token: ${{ secrets.GITHUB_TOKEN }}  # Required token for authorization
 
       - name: Upload Linux executable to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ github.run_number }}
+          tag_name: v${{ github.run_number }}  # Use the existing tag
           files: ./artifacts/linux/*  # Specify the files to upload
-          name: linux-exe
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload macOS executable to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ github.run_number }}
+          tag_name: v${{ github.run_number }}  # Use the existing tag
           files: ./artifacts/macos/*  # Specify the files to upload
-          name: macos-exe
           token: ${{ secrets.GITHUB_TOKEN }}
-
