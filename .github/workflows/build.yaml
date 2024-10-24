@@ -50,16 +50,13 @@ jobs:
         with:
           name: windows-latest-exe
           path: ./artifacts/windows
-
       - name: Rename Windows Executable
         run: mv ./artifacts/windows/main.exe ./artifacts/windows/secrets-windows.exe
-
       - name: Download Linux Artifact
         uses: actions/download-artifact@v4
         with:
           name: ubuntu-latest-exe
           path: ./artifacts/linux
-
       - name: Rename Linux Executable
         run: mv ./artifacts/linux/main ./artifacts/linux/secrets-linux
 
@@ -88,5 +85,6 @@ jobs:
             secrets-windows.exe
             secrets-linux
             secrets-macos
+          fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
