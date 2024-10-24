@@ -41,17 +41,17 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: windows-latest-exe
+          name: windows-latest
           path: ./artifacts/windows
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: linux-latest-exe
+          name: linux-latest
           path: ./artifacts/linux
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: macos-latest-exe
+          name: macos-latest
           path: ./artifacts/macos
 
       - name: Create GitHub Release
