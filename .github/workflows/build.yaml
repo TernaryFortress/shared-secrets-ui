@@ -52,6 +52,9 @@ jobs:
           path: ./artifacts/windows
       - name: Rename Windows Executable
         run: mv ./artifacts/windows/main.exe ./artifacts/windows/secrets-windows.exe
+      - name: List Windows Directory
+        run: ls ./artifacts/windows
+
       - name: Download Linux Artifact
         uses: actions/download-artifact@v4
         with:
@@ -59,15 +62,19 @@ jobs:
           path: ./artifacts/linux
       - name: Rename Linux Executable
         run: mv ./artifacts/linux/main ./artifacts/linux/secrets-linux
+      - name: List Linux Directory
+        run: ls ./artifacts/linux
 
       - name: Download macOS Artifact
         uses: actions/download-artifact@v4
         with:
           name: macos-latest-exe
           path: ./artifacts/macos
-
       - name: Rename MacOs Executable
         run: mv ./artifacts/macos/main ./artifacts/macos/secrets-macos
+      - name: List MacOs Directory
+        run: ls ./artifacts/macos
+
 
       - name: Create GitHub Release
         id: create_release
