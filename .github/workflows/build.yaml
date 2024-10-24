@@ -62,6 +62,12 @@ jobs:
         with:
           name: macos-latest-exe
           path: ./artifacts/macos
+      
+      - name: Rename Linux Executable
+        run: |
+        mv ./artifacts/linux/main ./artifacts/linux/linux-exe
+        mv ./artifacts/windows/main ./artifacts/windows/windows-exe
+        mv ./artifacts/macos/main ./artifacts/macos/macos-exe
 
       - name: Create GitHub Release
         id: create_release
@@ -75,26 +81,9 @@ jobs:
             - Windows: `windows-exe`
             - Linux: `linux-exe`
             - macOS: `macos-exe`
+          files: |
+            windows-exe
+            ubuntu-exe
+            macos-exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Windows executable to release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ github.run_number }}  # Use the existing tag
-          files: ./artifacts/windows/*  # Specify the files to upload
-          token: ${{ secrets.GITHUB_TOKEN }}  # Required token for authorization
-
-      - name: Upload Linux executable to release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ github.run_number }}  # Use the existing tag
-          files: ./artifacts/linux/*  # Specify the files to upload
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload macOS executable to release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ github.run_number }}  # Use the existing tag
-          files: ./artifacts/macos/*  # Specify the files to upload
-          token: ${{ secrets.GITHUB_TOKEN }}
