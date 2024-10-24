@@ -81,9 +81,9 @@ jobs:
           body: |
             ## Release v${{ github.run_number }}
             This release includes the following executables:
-            - Windows executable: `windows-exe`
+            - Windows executable: `secrets-windows.exe`
             - Linux: `secrets-linux`
-            - macOS: `macos-exe`
+            - macOS: `secrets-macos`
           files: |
             secrets-windows.exe
             secrets-linux
