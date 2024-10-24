@@ -89,9 +89,9 @@ jobs:
             - Linux: `secrets-linux`
             - macOS: `secrets-macos`
           files: |
-            secrets-windows.exe
-            secrets-linux
-            secrets-macos
+            ./artifacts/windows/secrets-windows.exe
+            ./artifacts/linux/secrets-linux
+            ./artifacts/macos/secrets-macos
           fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
