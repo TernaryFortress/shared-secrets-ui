@@ -78,27 +78,27 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Windows executable to release
-        uses: softprops/action-gh-release@v2
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/windows/*
-          asset_name: windows-exe
-          asset_content_type: application/octet-stream
+    - name: Upload Windows executable to release
+      uses: softprops/action-gh-release@v1
+      with:
+      	tag_name: v${{ github.run_number }}
+        files: ./artifacts/windows/*  # Specify the files to upload
+        name: windows-exe
+        token: ${{ secrets.GITHUB_TOKEN }}  # Required token for authorization
 
-      - name: Upload Linux executable to release
-        uses: softprops/action-gh-release@v2
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/linux/*
-          asset_name: linux-exe
-          asset_content_type: application/octet-stream
+    - name: Upload Linux executable to release
+      uses: softprops/action-gh-release@v1
+      with:
+      	tag_name: v${{ github.run_number }}
+        files: ./artifacts/linux/*  # Specify the files to upload
+        name: linux-exe
+        token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload macOS executable to release
-        uses: softprops/action-gh-release@v2
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/macos/*
-          asset_name: macos-exe
-          asset_content_type: application/octet-stream
+    - name: Upload macOS executable to release
+      uses: softprops/action-gh-release@v1
+      with:
+      	tag_name: v${{ github.run_number }}
+        files: ./artifacts/macos/*  # Specify the files to upload
+        name: macos-exe
+        token: ${{ secrets.GITHUB_TOKEN }}
 
