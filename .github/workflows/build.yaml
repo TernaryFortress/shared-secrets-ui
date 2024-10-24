@@ -1,4 +1,4 @@
-name: Build Python Executables
+name: Build and Release Python Executables
 
 on:
   push:
@@ -6,78 +6,89 @@ on:
       - main
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-      
+        uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.13'
-      
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
-      
+
       - name: Build executable
-        run: pyinstaller --onefile src/main.py
-      
-      - name: Upload Windows executable
+        run: pyinstaller --onefile your_script.py
+
+      - name: Upload executable
         uses: actions/upload-artifact@v4
         with:
-          name: windows-exe
+          name: ${{ matrix.os }}-exe
           path: dist/
 
-  build-linux:
+  release:
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
         with:
-          python-version: '3.13'
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyinstaller
-      
-      - name: Build executable
-        run: pyinstaller --onefile src/main.py
-      
-      - name: Upload Linux executable
-        uses: actions/upload-artifact@v4
+          name: windows-latest-exe
+          path: ./artifacts/windows
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
         with:
-          name: linux-exe
-          path: dist/
+          name: linux-latest-exe
+          path: ./artifacts/linux
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-latest-exe
+          path: ./artifacts/macos
 
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
         with:
-          python-version: '3.13'
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyinstaller
-      
-      - name: Build executable
-        run: pyinstaller --onefile src/main.py
-      
-      - name: Upload macOS executable
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-exe
-          path: dist/
+          tag_name: v${{ github.run_number }}
+          release_name: Release v${{ github.run_number }}
+          body: |
+            ## Release v${{ github.run_number }}
+            This release includes the following executables:
+            - Windows: `windows-exe`
+            - Linux: `linux-exe`
+            - macOS: `macos-exe`
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Upload Windows executable to release
+        uses: softprops/action-gh-release@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/windows/*
+          asset_name: windows-exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Linux executable to release
+        uses: softprops/action-gh-release@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/linux/*
+          asset_name: linux-exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload macOS executable to release
+        uses: softprops/action-gh-release@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/macos/*
+          asset_name: macos-exe
+          asset_content_type: application/octet-stream
