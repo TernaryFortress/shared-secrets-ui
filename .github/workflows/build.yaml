@@ -64,10 +64,13 @@ jobs:
           path: ./artifacts/macos
       
       - name: Rename Linux Executable
-        run: |
-          mv ./artifacts/linux/main ./artifacts/linux/linux-exe
-          mv ./artifacts/windows/main ./artifacts/windows/windows-exe
-          mv ./artifacts/macos/main ./artifacts/macos/macos-exe
+        run: mv ./artifacts/linux/main ./artifacts/linux/linux-exe
+      
+      - name: Rename Windows Executable
+        run: mv ./artifacts/windows/main ./artifacts/windows/windows-exe
+
+      - name: Rename MacOs Executable
+        run: mv ./artifacts/macos/main ./artifacts/macos/macos-exe
 
       - name: Create GitHub Release
         id: create_release
