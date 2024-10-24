@@ -51,23 +51,23 @@ jobs:
           name: windows-latest-exe
           path: ./artifacts/windows
 
+      - name: Rename Windows Executable
+        run: mv ./artifacts/windows/main ./artifacts/windows/windows-exe
+
       - name: Download Linux Artifact
         uses: actions/download-artifact@v4
         with:
           name: ubuntu-latest-exe
           path: ./artifacts/linux
 
+      - name: Rename Linux Executable
+        run: mv ./artifacts/linux/main ./artifacts/linux/linux-exe
+
       - name: Download macOS Artifact
         uses: actions/download-artifact@v4
         with:
           name: macos-latest-exe
           path: ./artifacts/macos
-      
-      - name: Rename Linux Executable
-        run: mv ./artifacts/linux/main ./artifacts/linux/linux-exe
-      
-      - name: Rename Windows Executable
-        run: mv ./artifacts/windows/main ./artifacts/windows/windows-exe
 
       - name: Rename MacOs Executable
         run: mv ./artifacts/macos/main ./artifacts/macos/macos-exe
