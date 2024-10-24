@@ -52,7 +52,7 @@ jobs:
           path: ./artifacts/windows
 
       - name: Rename Windows Executable
-        run: mv ./artifacts/windows/main.exe ./artifacts/windows/windows-exe
+        run: mv ./artifacts/windows/main.exe ./artifacts/windows/secrets-windows.exe
 
       - name: Download Linux Artifact
         uses: actions/download-artifact@v4
@@ -61,7 +61,7 @@ jobs:
           path: ./artifacts/linux
 
       - name: Rename Linux Executable
-        run: mv ./artifacts/linux/main ./artifacts/linux/linux-exe
+        run: mv ./artifacts/linux/main ./artifacts/linux/secrets-linux
 
       - name: Download macOS Artifact
         uses: actions/download-artifact@v4
@@ -70,7 +70,7 @@ jobs:
           path: ./artifacts/macos
 
       - name: Rename MacOs Executable
-        run: mv ./artifacts/macos/main ./artifacts/macos/macos-exe
+        run: mv ./artifacts/macos/main ./artifacts/macos/secrets-macos
 
       - name: Create GitHub Release
         id: create_release
@@ -81,12 +81,12 @@ jobs:
           body: |
             ## Release v${{ github.run_number }}
             This release includes the following executables:
-            - Windows: `windows-exe`
-            - Linux: `linux-exe`
+            - Windows executable: `windows-exe`
+            - Linux: `secrets-linux`
             - macOS: `macos-exe`
           files: |
-            windows-exe
-            ubuntu-exe
-            macos-exe
+            secrets-windows.exe
+            secrets-linux
+            secrets-macos
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
