@@ -65,9 +65,9 @@ jobs:
       
       - name: Rename Linux Executable
         run: |
-        mv ./artifacts/linux/main ./artifacts/linux/linux-exe
-        mv ./artifacts/windows/main ./artifacts/windows/windows-exe
-        mv ./artifacts/macos/main ./artifacts/macos/macos-exe
+          mv ./artifacts/linux/main ./artifacts/linux/linux-exe
+          mv ./artifacts/windows/main ./artifacts/windows/windows-exe
+          mv ./artifacts/macos/main ./artifacts/macos/macos-exe
 
       - name: Create GitHub Release
         id: create_release
