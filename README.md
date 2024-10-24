@@ -1,5 +1,5 @@
-# shared-secrets-ui
-Exchange data over an unsecured connection, using Diffie–Hellman Key Exchange
+# Shared Secrets UI
+Exchange data securely over an insecure connection, using Diffie–Hellman Key Exchange
 
 ---------------------------
 # Guide
@@ -18,6 +18,6 @@ Key Points:
 - Shared Secret: Each party computes the same shared secret key using their private key and the other party's public key.
 
 Why It Works:
-
 - Security: The method relies on the difficulty of certain mathematical problems, making it hard for attackers to derive the private keys from the public information.
 - No Direct Key Sharing: Since the actual secret key is never sent over the channel, it remains secure from eavesdroppers.
+- Mathematically: Private Key A * Public Key B = Private Key B * Public Key A - So long as both private keys are secret, nobody else can derive the encryption key.
