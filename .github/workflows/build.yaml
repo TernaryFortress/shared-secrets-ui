@@ -65,7 +65,7 @@ jobs:
 
       - name: Create GitHub Release
         id: create_release
-        uses: softprops/.pyaction-gh-release@v2
+        uses: softprops/pyaction-gh-release@v2
         with:
           tag_name: v${{ github.run_number }}
           name: Release v${{ github.run_number }}
@@ -79,21 +79,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Windows executable to release
-        uses: softprops/.pyaction-gh-release@v2
+        uses: softprops/pyaction-gh-release@v2
         with:
           files: ./artifacts/windows/*  # Specify the files to upload
           name: windows-exe
           token: ${{ secrets.GITHUB_TOKEN }}  # Required token for authorization
 
       - name: Upload Linux executable to release
-        uses: softprops/.pyaction-gh-release@v2
+        uses: softprops/pyaction-gh-release@v2
         with:
           files: ./artifacts/linux/*  # Specify the files to upload
           name: linux-exe
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload macOS executable to release
-        uses: softprops/.pyaction-gh-release@v2
+        uses: softprops/pyaction-gh-release@v2
         with:
           files: ./artifacts/macos/*  # Specify the files to upload
           name: macos-exe
