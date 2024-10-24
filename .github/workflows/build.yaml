@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, linux-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,29 +26,35 @@ jobs:
           pip install pyinstaller
 
       - name: Build executable
-        run: pyinstaller --onefile src/main.py
+        run: |
+          echo "Building executable for ${{ matrix.os }}"
+          pyinstaller --onefile src/main.py
+          echo "Build complete. Checking dist directory..."
+          ls dist  # List contents of the dist directory to confirm output
 
       - name: Upload executable
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-exe
-          path: dist/
+          name: ${{ matrix.os }}-exe  # Consistent naming for artifacts
+          path: dist/*                  # Upload all files in the dist directory
 
   release:
-    needs: build
-    runs-on: linux-latest
+    needs: build  # Ensure this runs after build
+    runs-on: ubuntu-latest  # Specify the OS for the release job
     steps:
-      - name: Download Artifacts
+      - name: Download Windows Artifact
         uses: actions/download-artifact@v4
         with:
           name: windows-latest-exe
           path: ./artifacts/windows
-      - name: Download Artifacts
+
+      - name: Download Linux Artifact
         uses: actions/download-artifact@v4
         with:
           name: linux-latest-exe
           path: ./artifacts/linux
-      - name: Download Artifacts
+
+      - name: Download macOS Artifact
         uses: actions/download-artifact@v4
         with:
           name: macos-latest-exe
