@@ -42,46 +42,45 @@ jobs:
           path: dist/*                  # Upload all files in the dist directory
 
   release:
-    needs: build  # Ensure this runs after build
-    runs-on: ubuntu-latest  # Specify the OS for the release job
-    steps:
-      - name: Download Windows Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: windows-latest-exe
-          path: ./artifacts/windows
+  needs: build  # Ensure this runs after build
+  runs-on: ubuntu-latest  # Specify the OS for the release job
+  steps:
+    - name: Download Windows Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: windows-latest-exe
+        path: ./artifacts/windows
 
-      - name: Download Linux Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: ubuntu-latest-exe
-          path: ./artifacts/linux
+    - name: Download Linux Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ubuntu-latest-exe
+        path: ./artifacts/linux
 
-      - name: Download macOS Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: macos-latest-exe
-          path: ./artifacts/macos
+    - name: Download macOS Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: macos-latest-exe
+        path: ./artifacts/macos
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: softprops/.pyaction-gh-release@v2
-        with:
-          tag_name: v${{ github.run_number }}
-          name: Release v${{ github.run_number }}
-          body: |
-            ## Release v${{ github.run_number }}
-            This release includes the following executables:
-            - Windows: `windows-exe`
-            - Linux: `linux-exe`
-            - macOS: `macos-exe`
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create GitHub Release
+      id: create_release
+      uses: softprops/.pyaction-gh-release@v2
+      with:
+        tag_name: v${{ github.run_number }}
+        name: Release v${{ github.run_number }}
+        body: |
+          ## Release v${{ github.run_number }}
+          This release includes the following executables:
+          - Windows: `windows-exe`
+          - Linux: `linux-exe`
+          - macOS: `macos-exe`
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Windows executable to release
       uses: softprops/.pyaction-gh-release@v2
       with:
-      	tag_name: v${{ github.run_number }}
         files: ./artifacts/windows/*  # Specify the files to upload
         name: windows-exe
         token: ${{ secrets.GITHUB_TOKEN }}  # Required token for authorization
@@ -89,7 +88,6 @@ jobs:
     - name: Upload Linux executable to release
       uses: softprops/.pyaction-gh-release@v2
       with:
-      	tag_name: v${{ github.run_number }}
         files: ./artifacts/linux/*  # Specify the files to upload
         name: linux-exe
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -97,7 +95,6 @@ jobs:
     - name: Upload macOS executable to release
       uses: softprops/.pyaction-gh-release@v2
       with:
-      	tag_name: v${{ github.run_number }}
         files: ./artifacts/macos/*  # Specify the files to upload
         name: macos-exe
         token: ${{ secrets.GITHUB_TOKEN }}
